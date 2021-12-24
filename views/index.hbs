@@ -1,0 +1,80 @@
+<!-- https://api.openweathermap.org/data/2.5/weather?q=Karachi&appid=1b7c17cce68e77567c56fc34bf15e8f9 -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+        integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <title>Weather App</title>
+</head>
+
+<body>
+
+    <div class="box">
+        <div class="wave -one"></div>
+        <div class="wave -two"></div>
+        <div class="wave -three"></div>
+        <div id="weathercon">
+            <!-- <i style="color: #eccc68;" class="fas fa-sun"></i>  -->
+            <!-- <i class="bi bi-cloud-haze fas"></i> -->
+        </div>
+        <div class="info">
+            <h2 class="location"><i style="font-size: 50px;" class="fas fa-street-view"></i> {{city}}, {{country}} </h2>
+            <p id="date"> </p>
+            <h1 class="temp"> {{tempval}}&deg;C </h1>
+            <p class="tempmin_max">Min {{tempMin}}&deg;C | Max {{tempMax}}&deg;C | Feels Like {{feelsLike}}&deg;C </p>
+        </div>
+    </div>
+
+    <script>
+        const curDate = document.getElementById("date");
+        const weathercon = document.getElementById("weathercon");
+        const tempStatus = '{{tempStatus}}';
+        weathercon.innerHTML = `<i class="fas bi bi-cloud-${tempStatus.toLowerCase()}"></i>`
+        // if (tempStatus === 'Thunderstorm') {
+        //     weathercon.innerHTML = "<i class='bi bi-cloud-lightning'></i>"
+        // } else if (tempStatus === 'Drizzle') {
+        //     weathercon.innerHTML = '<i class="bi bi-cloud-drizzle"></i>'
+        // } else if (tempStatus === 'Rain') {
+        //     weathercon.innerHTML = '<i class="bi bi-cloud-rain"></i>'
+        // } else if (tempStatus === 'Snow') {
+        //     weathercon.innerHTML = '<i class="bi bi-cloud-snow"></i>'
+        // }
+
+        const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Satur']
+        const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const getCurDate = () => {
+            const curDate_Time = new Date();
+            let period = 'AM';
+            let curMinutes = curDate_Time.getMinutes();
+            let curHours = curDate_Time.getHours();
+            if (curHours > 11) {
+                period = 'PM';
+                if (curHours > 12) curHours -= 12
+            }
+            if (curMinutes < 10) {
+                curMinutes = `0${curMinutes}`;
+            }
+            if (curHours < 10) {
+                curHours = `0${curHours}`;
+            }
+
+            const completeDate = `${weekDays[curDate_Time.getDay()]} | ${month[curDate_Time.getMonth()]} ${curDate_Time.getDate()} | `
+            const completeTime = `${curHours}:${curMinutes} ${period}`;
+            return completeDate + completeTime;
+        }
+        curDate.innerHTML = getCurDate()
+    </script>
+</body>
+
+</html>
